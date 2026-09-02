@@ -9,12 +9,14 @@ export default defineConfig({
     timeout: 120000,
   },
   workers: 5,
+  retries: 2,
   use: {
     baseURL: 'https://practicesoftwaretesting.com',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     headless: true,
+
     launchOptions: {
       slowMo: 1500,
     },
