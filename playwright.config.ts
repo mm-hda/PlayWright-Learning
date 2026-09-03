@@ -4,11 +4,8 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   reporter: 'html',
-  timeout: 120000,
-  expect: {
-    timeout: 120000,
-  },
-  workers: 5,
+  timeout: 240000,
+  workers: 3,
   retries: 1,
   use: {
     baseURL: 'https://practicesoftwaretesting.com',
@@ -18,7 +15,7 @@ export default defineConfig({
     headless: true,
 
     launchOptions: {
-      slowMo: 1500,
+      slowMo: 2000,
     },
   },
 
