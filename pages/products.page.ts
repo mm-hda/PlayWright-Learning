@@ -140,12 +140,6 @@ export class ProductsPage {
         await this.page.locator(locators.products.clearSearchButton).click();
     }
 
-    async getSearchHeading(): Promise<string> {
-        const heading = await this.page.locator('h2').textContent();
-
-        return heading?.trim() ?? '';
-    }
-
     async getVisibleProductNames(): Promise<string[]> {
         const names = await this.page.locator(locators.products.productName).allTextContents();
 
