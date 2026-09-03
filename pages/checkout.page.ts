@@ -68,17 +68,6 @@ export class CheckoutPage {
         throw new Error(`Product "${productName}" was not found in the cart.`);
     }
 
-    async getProductName(productIndex: number): Promise<string> {
-        const row = await this.getProductRowByIndex(productIndex);
-        const productName = await row.locator('td').first().innerText();
-
-        if (!productName?.trim()) {
-            throw new Error(`Product name was not found at cart row ${productIndex}.`);
-        }
-
-        return productName.trim();
-    }
-
     async getQuantityInput(productIndex: number): Promise<Locator> {
         const row = await this.getProductRowByIndex(productIndex);
         const quantityInput = row.locator(locators.checkout.quantityInput);
@@ -119,21 +108,6 @@ export class CheckoutPage {
         }
 
         return quantity;
-    }
-
-    async updateQuantity(productIndex: number, quantity: number): Promise<void> {
-        const quantityInput = await this.getQuantityInput(productIndex);
-        const expectedQuantity = quantity < 1 ? 1 : quantity;
-
-        await quantityInput.fill(quantity.toString());
-        await quantityInput.press('Tab');
-
-        await expect.poll(
-            async () => this.getQuantity(productIndex),
-            {
-                message: `Expected quantity at row ${productIndex} to become ${expectedQuantity}`
-            }
-        ).toBe(expectedQuantity);
     }
 
     async updateQuantityByProductName(productName: string, quantity: number): Promise<void> {
@@ -265,21 +239,6 @@ export class CheckoutPage {
         ).toBe(expectedGrandTotal);
     }
 
-    async removeProduct(productIndex: number): Promise<void> {
-        const row = await this.getProductRowByIndex(productIndex);
-        const productName = await this.getProductName(productIndex);
-        const currentProductCount = await this.getProductCount();
-        const removeButton = row.locator(locators.checkout.removeButton).first();
-
-        await expect(removeButton).toBeVisible();
-        await removeButton.click();
-
-        await expect(this.getProductRows()).toHaveCount(currentProductCount - 1);
-        await this.verifyProductDoesNotExist(productName);
-    }
-
-
-
     async verifyProductDoesNotExist(productName: string): Promise<void> {
         const productRows = this.getProductRows();
         const productCount = await productRows.count();
@@ -299,16 +258,6 @@ export class CheckoutPage {
         await expect(this.getContinueShoppingButton()).toBeVisible();
         await expect(this.getProceedToCheckoutButton()).toBeVisible();
         await expect(this.getProceedToCheckoutButton()).toBeEnabled();
-    }
-
-    async clickContinueShopping(): Promise<void> {
-        await this.getContinueShoppingButton().click();
-        await expect(this.page).toHaveURL('/');
-    }
-
-    async clickProceedToCheckout(): Promise<void> {
-        await expect(this.getProceedToCheckoutButton()).toBeEnabled();
-        await this.getProceedToCheckoutButton().click();
     }
 
     private parseCurrency(text: string | null, fieldName: string): number {

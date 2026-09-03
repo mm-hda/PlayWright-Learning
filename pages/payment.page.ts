@@ -228,53 +228,10 @@ export class PaymentPage {
         await expect(this.getPaymentSuccessMessage()).toContainText('Payment was successful');
     }
 
-    async verifyPaymentSuccessMessage(): Promise<void> {
-        await expect(this.getPaymentSuccessMessage()).toBeVisible();
-    }
 
-    async completeCashOnDelivery(): Promise<void> {
-        await this.selectPaymentMethod('cash-on-delivery');
-        await this.confirmPayment();
-        await this.verifyPaymentSuccessful();
-    }
 
-    async completeBankTransfer(data: {
-        bankName: string;
-        accountName: string;
-        accountNumber: string;
-    }): Promise<void> {
-        await this.selectPaymentMethod('bank-transfer');
-        await this.fillBankTransferDetails(data);
-        await this.confirmPayment();
-        await this.verifyPaymentSuccessful();
-    }
 
-    async completeCreditCard(data: {
-        cardNumber: string;
-        expirationDate: string;
-        cvv: string;
-        cardHolderName: string;
-    }): Promise<void> {
-        await this.selectPaymentMethod('credit-card');
-        await this.fillCreditCardDetails(data);
-        await this.confirmPayment();
-        await this.verifyPaymentSuccessful();
-    }
 
-    async completeGiftCard(data: {
-        giftCardNumber: string;
-        validationCode: string;
-    }): Promise<void> {
-        await this.selectPaymentMethod('gift-card');
-        await this.fillGiftCardDetails(data);
-        await this.confirmPayment();
-        await this.verifyPaymentSuccessful();
-    }
 
-    async completeBuyNowPayLater(value: '3' | '6' | '9' | '12'): Promise<void> {
-        await this.selectPaymentMethod('buy-now-pay-later');
-        await this.selectMonthlyInstallments(value);
-        await this.confirmPayment();
-        await this.verifyPaymentSuccessful();
-    }
+
 }

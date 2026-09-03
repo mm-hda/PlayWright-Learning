@@ -97,18 +97,13 @@ export class CartPage {
         return availableProductIndexes[availablePosition];
     }
 
-    async getAvailableProductName(availablePosition: number): Promise<string> {
-        const displayedIndex = await this.getAvailableProductDisplayedIndex(availablePosition);
-
-        return this.getDisplayedProductName(displayedIndex);
-    }
-
     async openAvailableProduct(availablePosition = 0): Promise<string> {
         const displayedIndex = await this.getAvailableProductDisplayedIndex(availablePosition);
         const productCard = this.getProductCardByDisplayedIndex(displayedIndex);
         const productName = await this.getDisplayedProductName(displayedIndex);
 
         await productCard.locator(locators.cart.productName).click();
+        setTimeout(() => { }, 3000);
         await expect(this.page.locator(locators.cart.productDetailHeading)).toHaveText(productName);
         await expect(this.getAddToCartButton()).toBeVisible();
         await expect(this.getAddToCartButton()).toBeEnabled();
@@ -183,7 +178,7 @@ export class CartPage {
     async addCurrentProductToCart(): Promise<void> {
         await expect(this.getAddToCartButton()).toBeEnabled();
         await this.getAddToCartButton().click();
-        await expect(this.getSuccessToast()).toBeVisible();
+        await expect(this.getSuccessToast()).toBeVisible({ timeout: 5000 });
     }
 
     async addCurrentProductMultipleTimes(times: number, quantityPerClick = 1): Promise<void> {
@@ -192,7 +187,7 @@ export class CartPage {
         for (let clickNumber = 1; clickNumber <= times; clickNumber++) {
             const expectedQuantity = initialCartQuantity + clickNumber * quantityPerClick;
             await this.getAddToCartButton().click();
-            await expect.poll(async () => await this.getCartQuantity()).toBe(expectedQuantity);
+            await expect.poll(async () => await this.getCartQuantity(), { timeout: 5000 }).toBe(expectedQuantity);
         }
     }
 
@@ -215,6 +210,6 @@ export class CartPage {
     }
 
     async verifySuccessToast(): Promise<void> {
-        await expect(this.getSuccessToast()).toBeVisible();
+        await expect(this.getSuccessToast()).toBeVisible({ timeout: 5000 });
     }
 }
