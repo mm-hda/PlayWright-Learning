@@ -52,23 +52,6 @@ export class ProductsPage {
         expect(actual).toEqual(expected);
     }
 
-    async verifySortDropdownVisible() {
-        await expect(this.page.locator(locators.products.sortDropdown)).toBeVisible();
-    }
-
-    async printProducts() {
-        const names = await this.getProductNames();
-        console.log('Products:');
-        names.forEach((name, index) => { console.log(`${index + 1}. ${name}`); });
-    }
-
-    async printPrices() {
-        const prices = await this.getProductPrices();
-        console.log('Prices:');
-        prices.forEach((price, index) => {
-            console.log(`${index + 1}. $${price}`);
-        });
-    }
 
     async selectCategory(category: string) {
         await this.page.getByLabel(category).check();
@@ -84,19 +67,6 @@ export class ProductsPage {
 
     async getProductCount(): Promise<number> {
         return await this.page.locator('h5.card-title').count();
-    }
-
-    async getPageCount(): Promise<number> {
-        const buttons = await this.page.locator('.pagination button').allTextContents();
-        return buttons.filter(text => !text.includes('«') && !text.includes('»')).length;
-    }
-
-    async getFirstProductPrice(): Promise<number> {
-        const price = await this.page.locator('.card-footer').first().textContent();
-        if (!price) {
-            throw new Error('Price not found');
-        }
-        return Number(price.replace('$', '').trim());
     }
 
     async waitForProductsToUpdate(): Promise<void> {

@@ -28,7 +28,7 @@ export class FavoritesPage {
         await this.page.locator(locators.favorites.registerPassword).fill(password);
 
         await this.page.locator(locators.favorites.registerButton).click();
-        await expect(this.page).toHaveURL(/auth\/login/);
+        await expect(this.page).toHaveURL(/auth\/login/, { timeout: 5000 });
     }
 
     async login(email: string, password: string): Promise<void> {
@@ -66,7 +66,7 @@ export class FavoritesPage {
         const productName = await this.getProductNameByIndex(index);
 
         await productCard.locator(locators.favorites.productName).click();
-        await expect(this.page).toHaveURL(/\/product\//);
+        await expect(this.page).toHaveURL(/\/product\//, { timeout: 5000 });
         await expect(this.page.locator(locators.favorites.productDetailHeading)).toBeVisible();
 
         return productName;
@@ -122,21 +122,6 @@ export class FavoritesPage {
 
     async verifyProductIsNotFavorite(productName: string): Promise<void> {
         await expect(this.getFavoriteItemByName(productName)).not.toBeVisible();
-    }
-
-    async getFavoriteProductNames(): Promise<string[]> {
-        const items = this.page.locator(locators.favorites.favoriteItems);
-        const names: string[] = [];
-
-        for (let index = 0; index < await items.count(); index++) {
-            const name = await items.nth(index).locator(locators.favorites.favoriteItemName).first().textContent();
-
-            if (name?.trim()) {
-                names.push(name.trim());
-            }
-        }
-
-        return names;
     }
 
     async removeFavorite(productName: string): Promise<void> {
