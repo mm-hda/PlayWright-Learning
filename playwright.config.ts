@@ -9,7 +9,7 @@ export default defineConfig({
     timeout: 120000,
   },
   workers: 5,
-  retries: 4,
+  retries: 1,
   use: {
     baseURL: 'https://practicesoftwaretesting.com',
     trace: 'on-first-retry',
