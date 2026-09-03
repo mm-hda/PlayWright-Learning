@@ -37,6 +37,21 @@ const giftCardData = {
     validationCode: '2365'
 };
 
+const userData = {
+    firstName: 'Harsh',
+    lastName: 'Donda',
+    dob: '1998-01-01',
+    country: 'India',
+    postcode: '390001',
+    houseNumber: '42',
+    street: 'Sample Street',
+    city: 'Vadodara',
+    state: 'Gujarat',
+    phone: '9876543210',
+    email: `harsh.payment.${Date.now()}${Math.floor(Math.random() * 10000)}@test.com`,
+    password: 'Harsh#9665'
+};
+
 test.describe('Payment Functionality', () => {
     test.beforeEach(async ({ page }) => {
         loginPage = new LoginPage(page);
@@ -44,20 +59,6 @@ test.describe('Payment Functionality', () => {
         cartPage = new CartPage(page);
         paymentPage = new PaymentPage(page);
 
-        const userData = {
-            firstName: 'Harsh',
-            lastName: 'Donda',
-            dob: '1998-01-01',
-            country: 'India',
-            postcode: '390001',
-            houseNumber: '42',
-            street: 'Sample Street',
-            city: 'Vadodara',
-            state: 'Gujarat',
-            phone: '9876543210',
-            email: `harsh.payment.${Date.now()}${Math.floor(Math.random() * 10000)}@test.com`,
-            password: 'Harsh#9665'
-        };
 
         await test.step('Register customer', async () => {
             await registerPage.goto();

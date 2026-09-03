@@ -71,7 +71,6 @@ export class ProductsPage {
 
     async waitForProductsToUpdate(): Promise<void> {
         await expect(this.page.locator('h5.card-title').first()).toBeVisible();
-        await this.page.waitForTimeout(1000);
     }
 
     async expectAllProductsWithinPriceRange(minPrice: number, maxPrice: number): Promise<void> {

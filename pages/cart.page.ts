@@ -103,7 +103,6 @@ export class CartPage {
         const productName = await this.getDisplayedProductName(displayedIndex);
 
         await productCard.locator(locators.cart.productName).click();
-        setTimeout(() => { }, 3000);
         await expect(this.page.locator(locators.cart.productDetailHeading)).toHaveText(productName);
         await expect(this.getAddToCartButton()).toBeVisible();
         await expect(this.getAddToCartButton()).toBeEnabled();
